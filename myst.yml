@@ -3,13 +3,13 @@ version: 1
 project:
   id: d4ed63d4-e4ba-4d57-b9c3-8f8af2dac267
   title: Python Thermodynamica Simulaties voor TN13015
-  # description:
+  description: "This is a collection of Python simulations for the course TN13015 Thermodynamica. The simulations are based on the book 'Thermodynamica' by Jesse Jansen and Dean Shalhav."
   # keywords: []
   authors: 
     - name: Jesse Jansen
-    - name: Finn Ansing 
+    - name: Dean Shalhav
 
-  github: https://github.com/IP2Thermo/thermolab
+  github: https://github.com/StudentJesse/IP2Thermo
   plugins:
     - https://github.com/jupyter-book/myst-plugins/releases/download/page-last-updatedv1.1/page-last-updated.mjs
   toc:
