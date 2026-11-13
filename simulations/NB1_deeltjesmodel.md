@@ -27,7 +27,7 @@ De basis van een goede computer simulatie ligt, net als bij het oplossen van een
 ```{exercise}
 Als startopdracht modelleren we twee fietsers. Doorloop de bovenstaande drie stappen. 
 ```
-
+gedaan
 
 
 
@@ -52,7 +52,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Beginwaarden
-dt = 0.25                  #s
+dt = 2                  #s
 t_e = 10                   #s
 N = int(t_e/dt)+1
 t = np.arange(0,t_e+dt,dt) #s
@@ -92,6 +92,7 @@ Wat op zou kunnen vallen is dat de snelheid in een cel constant gehouden wordt (
 ```{exercise}
 Maak het tijdsinterval $dt$ groter en vergelijk de afgelegde weg in de tien seconde. Wat gebeurt er met de afgelegde weg als we $dt$ groter maken? Is dat logisch vanuit gezien de natuurkunde? En gezien de methode van discretisatie? Leg uit.
 ```
+dan gaan ze stijler lopen
 
 
 <!-- Jouw antwoord hier  -->
@@ -195,6 +196,7 @@ print("Hoe een eigenschap (in dit geval: 'r') van het element van het array erui
 Gegeven bovenstaande particles die je hebt aangemaakt, hoe zien de posities er dan uit van die deeltjes?
 Voorspel en controleer vervolgens met onderstaande code.
 ```
+ze zitten op dezelfde plek
 
 ```python
 import numpy as np
@@ -246,6 +248,21 @@ En als je wilt gaan voor een uitdaging:
 
 ```python
 ### YOUR CODE HERE ###
+import random
+deeltjes = []
+that_particle.update_position(2.0)
+for i in range(10):
+    vx = np.random.uniform(-5,5)
+    vy =  dt = np.random.uniform(0,0.5)
+    deeltjes.append(ParticleClass(m=1.0, v=[vx,vy], r=[i, 0.0],R=1.0))
+plt.figure()
+for i, particle in enumerate(deeltjes):
+    dt = 0.5
+    kleur = f"C{i}"
+    plt.plot(particle.r[0],particle.r[1],'o',color=kleur)
+    particle.update_position(dt)
+    plt.plot(particle.r[0],particle.r[1],'o',color=kleur)
+plt.show()
 ```
 
 Onze simulaties worden snel “zwaar”. Er moeten veel berekeningen gedaan worden en dat kost nu eenmaal tijd. Nu is het wel zo dat sommige berekeningen meer tijd kosten dan anderen. Om te kijken of een stukje code geoptimaliseerd kan worden, moeten we een timer maken. Dat kan met onderstaande code:
@@ -266,6 +283,7 @@ eind = time.time()
 lengte = eind - start
 
 print("Dit kostte ", lengte, "seconde!")
+
 ```
 
 Idealiter draaien we de bovenstaande code een aantal keer zodat we een goede schatting hebben van de rekentijd.
@@ -284,11 +302,17 @@ Met de MyST extentie in jupyterlab kun je gebruik maken van [eval](https://mystm
 ```
 
 ```{solution} ex-intro-3
-De runtime is {eval}`<naam variabele>` korter.
+De runtime is {eval} f"{hello}, {there} everybody!"` korter.
 ```
 
 ```python
+start = time.time()
+array= np.random.rand(0,int(1e5))
 
+eind = time.time()
+lengte = eind - start
+
+print("Dit kostte ", lengte, "seconde!")
 ```
 
 ## Aan de slag met deeltjes
