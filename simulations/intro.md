@@ -63,3 +63,4 @@ Je kunt je gehele werk zien door de volgende code te runnen `pixi run preview`.
 
 ## Run editor
 De editor kun je openen door de volgende code te runnen: `pixi run editor`.
+
