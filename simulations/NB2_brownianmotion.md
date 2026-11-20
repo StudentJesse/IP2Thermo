@@ -88,11 +88,11 @@ Bekijk de waarde van `DT`. Hoe zorgt deze waaarde ervoor dat het onwaarschijnlij
 Onze simulatie modelleert dus een klein systeem zonder rekening te houden met de kracht tussen de luchtmoleculen. Je zult zien dat we toch al behoorlijk wat van de processor vragen om deze berekeningen te doen. Om een meer realistische modelsimulatie te maken is daarom een serieuze uitdaging, die veel wiskunde en programmeerervaring vraagt. Op dit ogenblik wordt dit bijvoorbeeld gevraagd bij een van de eerste opdrachten van het vak 'Computational Physics' van de master Applied Physics. 
 
 ```python tags=["NB2_init"] editable=true slideshow={"slide_type": ""}
-BOX_SIZE_0 = 10                # Hoogte en lengte startvolume
-N = 40                         # Aantal deeltjes
-V_0 = 1                        # Startsnelheid van deeltjes
-RADIUS = 0.3                   # Straal van moleculen
-DT = 0.1 * RADIUS / V_0        # Tijdstap om geen botsing te missen
+BOX_SIZE_0 = 10  #m              # Hoogte en lengte startvolume
+N = 40        #n                 # Aantal deeltjes
+V_0 = 1      #m/v                  # Startsnelheid van deeltjes
+RADIUS = 0.3   # m                # Straal van moleculen
+DT = 0.1 * RADIUS / V_0    #t    # Tijdstap om geen botsing te missen
 ```
 
 ### Particle class
@@ -183,11 +183,12 @@ Leg uit dat d.m.v. onderstaande code de deeltjes allemaal dezelfde snelheid hebb
 ```
 
 ```{solution} ex-recap-5
-Jouw antwoord hier...
-### YOUR CODE HERE ###
-```
+omdat de altijd de gecombineerde de totale snelheid het zelfde is 
+vx = np.random.uniform(-V_0, V_0)
+        vy = np.random.choice([-1, 1]) * np.sqrt(V_0**2 - vx**2)         hierbij zijn ze alltijd onderdeel van elkaar en hierdoor is de totale snelheud gelijk
+en uniform wordt het uniform verdeeld
 
-```python tags=["NB2_init"] editable=true slideshow={"slide_type": ""}
+
 def create_particles(particles):
     ''' Leegmaken en opnieuw aanmaken van deeltjes '''
     particles.clear
@@ -196,7 +197,7 @@ def create_particles(particles):
         vy = np.random.choice([-1, 1]) * np.sqrt(V_0**2 - vx**2)        
         pos = np.random.uniform(-BOX_SIZE_0/2 + RADIUS, BOX_SIZE_0/2 - RADIUS, 2)
         particles.append(ParticleClass(m=1.0, v=[vx, vy], r=pos, R=RADIUS))
-```
+
 
 #### Controleren op onderlinge botsingen
 
@@ -209,8 +210,7 @@ Leg uit hoe er in onderstaande code wordt voorkomen dat de botsing tussen twee d
 ```
 
 ```{solution} ex-recap-6
-Jouw antwoord hier...
-### YOUR CODE HERE ###
+door j is i+1 wordt het paar niet 2 keer geteld en is i nooit gelijk aan j
 ```
 
 ```python editable=true slideshow={"slide_type": ""} tags=["NB2_init"]
