@@ -916,35 +916,76 @@ class ParticleClass:
     def kin_energy(self):
         return 1/2 * self.m * np.dot(self.v, self.v)
 
+# Het bepalen of er een botsing plaats vindt
+def collide_detection(self, other):
+    dx = self.r[0] - other.r[0]
+    dy = self.r[1] - other.r[1]
+    rr = self.R + other.R
+    return  dx**2+dy**2 < rr**2 
+        
+def particle_collision(p1: ParticleClass, p2: ParticleClass):
+    """ past snelheden aan uitgaande van overlap """
+    m1, m2 = p1.m, p2.m
+    delta_r = p1.r - p2.r
+    delta_v = p1.v - p2.v
+    dot_product = np.dot(delta_r, delta_v)
+    
+    # Als deeltjes van elkaar weg bewegen dan geen botsing
+    if dot_product >= 0: # '='-teken voorkomt ook problemen als delta_r == \vec{0}
+        return
+    
+    distance_squared = np.dot(delta_r, delta_r) 
+    # Botsing oplossen volgens elastische botsing in 2D
+    p1.v -= 2 * m2 / (m1 + m2) * dot_product / distance_squared * delta_r
+    p2.v += 2 * m1 / (m1 + m2) * dot_product / distance_squared * delta_r
+
+def handle_collisions(particles):
+    counter = 0
+    """ alle onderlinge botsingen afhandelen voor deeltjes in lijst """
+    num_particles = len(particles)
+    for i in range(num_particles):
+        for j in range(i+1, num_particles):
+            if collide_detection(particles[i], particles[j]):
+                particle_collision(particles[i], particles[j])
+                counter += 1
+    return counter            
+
+
 ```
 
 ```python
+import numpy as np
+
 a = np.array([0, -9.81])  # m/s^2, zwaartekracht naar beneden
 N = 361
 N_nieuw = N*2
 box_size_1 = 10
-box_size_0 = box_size_1*np.sqrt(N_nieuw/N)  # De box wordt groter bij meer deeltjes
+Box_size_0 = box_size_1*np.sqrt(N_nieuw/N)  # De box wordt groter bij meer deeltjes
 Box_size_nieuw = Box_size_0*np.sqrt(N_nieuw/N)  # De box wordt groter bij meer deeltjes
+Box_length = Box_size_nieuw/2
 
-breedte = Box_size_nieuw
-lengte = 2*Box_size_nieuw
+breedte = Box_size_nieuw/2
+lengte = 2*Box_size_nieuw/2
 # Particles
-dt = 0.1
 particles = []
 
-N = 361
 v_0 = 1
 
 dt = 0.04
 
 # Aanmaken van deeltjes
-for i in range(N-1):
+for i in range(N_nieuw):
     vx = np.random.uniform(-v_0,v_0)
     vy = np.random.choice([-1, 1])*np.sqrt(v_0**2-vx**2)        
-    pos = Box_length_0*np.random.uniform(-1,1,2)
-    particles.append(ParticleClass(m=1.0, v=[vx, vy], r = pos, R=.5,c='blue')) 
-# Aanmaken van een zwaar deeltje
-particles.append(ParticleClass(m=20.0, v=[0, 0], r = [0, 0], R=.5,c='red')) 
+    x = np.random.uniform(-breedte+0.5, breedte-0.5)
+    y = np.random.uniform(-lengte+0.5, lengte-0.5)
+
+    if  i < N_nieuw //2:
+        particles.append(ParticleClass(m=1.0, v=[vx, vy], r = [x, y], R=.5,c='blue')) 
+    else:
+        particles.append(ParticleClass(m=20.0, v=[0, 0], r = [0, 0], R=.5,c='red')) 
+
+
 
 begin_x = []
 begin_y = []
